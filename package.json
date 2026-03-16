@@ -1,0 +1,8 @@
+{
+  "name": "solo-leveling-profile",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Dynamic RPG GitHub Profile",
+  "main": "generate-readme.js",
+  "dependencies": {}
+}
