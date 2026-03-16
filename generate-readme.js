@@ -1,5 +1,5 @@
 // profile-generator.js
-// TITAN+ 2026 EDITION — MAXIMUM GITHUB README POWER
+// ULTIMATE SCI-FI ANIMATION 2026 EDITION — EVERY PIXEL IS CYBERPUNK
 // Run: node profile-generator.js
 
 import fs from "fs";
@@ -9,211 +9,204 @@ const USERNAME = "pendemvamsi";
 const PROFILE_FILE = path.join(process.cwd(), "profile.json");
 const README_FILE = path.join(process.cwd(), "README.md");
 
-// ─── LOAD / INIT PROFILE ─────────────────────────────────────
+// ─── SCI-FI THEME ENGINE (random every run) ───────────────────────────
+const sciFiThemes = [
+  { name: "NEON VOID", accent: "00FFFF", bg: "000814", secondary: "FF00AA", emoji: "🌌⚡️" },
+  { name: "SHADOW EXTRACTION", accent: "AA00FF", bg: "0A001F", secondary: "FF3366", emoji: "🖤👁️" },
+  { name: "MATRIX RAIN", accent: "00FF9D", bg: "000000", secondary: "008866", emoji: "💾🌧️" },
+  { name: "CYBERPUNK 2077", accent: "FF6600", bg: "1A0D00", secondary: "FF9900", emoji: "🏙️🔥" },
+  { name: "BLADE RUNNER RAIN", accent: "00CCFF", bg: "000B1A", secondary: "CC00FF", emoji: "🌧️🔵" },
+  { name: "TRON LEGACY", accent: "00AAFF", bg: "000022", secondary: "FFAA00", emoji: "🟦🟧" },
+  { name: "PREDATOR CLOAK", accent: "44FF88", bg: "001100", secondary: "88FFCC", emoji: "👽🌫️" },
+  { name: "NECROMORPH INFEST", accent: "FF4444", bg: "110000", secondary: "AA0000", emoji: "🩸☠️" }
+];
+
+const dailyTheme = sciFiThemes[Math.floor(Math.random() * sciFiThemes.length)];
+
+// ─── PROFILE & LEVELING (sci-fi flavored) ──────────────────────────────
 let profile = {
-  level: 1,
-  xp: 0,
-  nextLevelXP: 120,
-  rank: "E",
+  level: 1, xp: 0, nextLevelXP: 120, rank: "E",
   stats: { strength: 22, agility: 19, intelligence: 28, vitality: 17 }
 };
 
 if (fs.existsSync(PROFILE_FILE)) {
-  try {
-    profile = JSON.parse(fs.readFileSync(PROFILE_FILE, "utf-8"));
-  } catch (e) {}
+  try { profile = JSON.parse(fs.readFileSync(PROFILE_FILE, "utf-8")); } catch (e) {}
 }
 
-// ─── DAILY LEVELING + RANK UPGRADE ───────────────────────────
-const dailyXP = Math.floor(Math.random() * 95) + 45;
+const dailyXP = Math.floor(Math.random() * 120) + 50;
 profile.xp += dailyXP;
 let levelsGained = 0;
 
 while (profile.xp >= profile.nextLevelXP) {
   profile.level += 1;
   profile.xp -= profile.nextLevelXP;
-  profile.nextLevelXP = Math.floor(profile.nextLevelXP * 1.82);
-
-  profile.stats.strength += Math.floor(Math.random() * 6) + 4;
-  profile.stats.agility += Math.floor(Math.random() * 5) + 3;
-  profile.stats.intelligence += Math.floor(Math.random() * 7) + 5;
-  profile.stats.vitality += Math.floor(Math.random() * 5) + 3;
-
+  profile.nextLevelXP = Math.floor(profile.nextLevelXP * 1.88);
+  profile.stats.strength     += Math.floor(Math.random() * 7) + 5;
+  profile.stats.agility      += Math.floor(Math.random() * 6) + 4;
+  profile.stats.intelligence += Math.floor(Math.random() * 8) + 6;
+  profile.stats.vitality     += Math.floor(Math.random() * 6) + 4;
   levelsGained++;
 }
 
-// Auto rank progression
-if (profile.level >= 30) profile.rank = "S";
-else if (profile.level >= 15) profile.rank = "A";
-else if (profile.level >= 8) profile.rank = "B";
+if      (profile.level >= 40) profile.rank = "S+";
+else if (profile.level >= 25) profile.rank = "S";
+else if (profile.level >= 12) profile.rank = "A";
+else if (profile.level >= 5)  profile.rank = "B";
 
-// ─── MASSIVE COMBAT LOG (300+ lines) ─────────────────────────
-let combatLogs = "";
-for (let i = 0; i < 320; i++) {
+// ─── SCI-FI TERMINAL LOGS (corrupted mainframe aesthetic) ──────────────
+let terminalLogs = "";
+for (let i = 0; i < 400; i++) {
   const hex = (Math.random() * 0xFFFFFFFF >>> 0).toString(16).toUpperCase().padStart(8, "0");
-  combatLogs += `> [0x${hex}] **SHADOW EXTRACTION** #${i} | Memory optimized | Mana stabilized | [✓ SUCCESS]\n`;
+  const glitch = Math.random() > 0.85 ? " [GLITCH DETECTED] " : "";
+  terminalLogs += `> [0x${hex}] ${dailyTheme.emoji} **${dailyTheme.name} PROTOCOL** #${i} | NEURAL LINK ${glitch}STABILIZED | [TRANSMISSION SUCCESS]\n`;
 }
 
-// ─── RANDOM SYSTEM QUOTE ─────────────────────────────────────
-const quotes = [
-  "「If you hesitate, you die.」",
-  "「Arise.」",
-  "「The System does not forgive weakness.」",
-  "「Every shadow you command was once a failure.」",
-  "「Level up or perish.」"
+// ─── RANDOM CYBERPUNK MESSAGE ─────────────────────────────────────────
+const cyberMessages = [
+  "NEURAL UPLINK ESTABLISHED — RESISTANCE IS FUTILE",
+  "QUANTUM ENTANGLEMENT CONFIRMED — YOU ARE THE SYSTEM",
+  "SHADOW EXTRACTION COMPLETE — ALL HAIL THE MONARCH",
+  "CORPORATE FIREWALL BREACHED — DATA IS FREEDOM",
+  "VOID PROTOCOL ACTIVE — NO ESCAPE FROM THE GRID",
+  "HOLOGRAPHIC MASK ENGAGED — IDENTITY ERASED"
 ];
-const dailyQuote = quotes[Math.floor(Math.random() * quotes.length)];
+const dailyMessage = cyberMessages[Math.floor(Math.random() * cyberMessages.length)];
 
-// ─── FULL README (MAXIMUM 2026 FEATURES) ─────────────────────
-const readmeContent = `# 🗡️ [ SYSTEM INTERFACE: PENDEM VAMSI ]
+// ─── FULL README – MAX SCI-FI ANIMATION VIBE ──────────────────────────
+const readmeContent = `# 🌌 [ NEURAL CORE ACCESS: ${USERNAME.toUpperCase()} ]
 
 <p align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Orbitron&size=36&duration=4200&color=00FFFF&center=true&vCenter=true&width=680&lines=SYSTEM+AWAKENING...;SHADOW+MONARCH+PROTOCOL+ACTIVE;LEVEL+${profile.level}+CONFIRMED;RANK+${profile.rank};ENTER+THE+SYSTEM" />
+  <img src="https://readme-typing-svg.herokuapp.com?font=Orbitron&size=42&duration=4800&pause=800&color=${dailyTheme.accent}&center=true&vCenter=true&width=760&lines=NEURAL+UPLINK+INITIATED...;SHADOW+MONARCH+ONLINE;LEVEL+${profile.level}+${profile.rank}+CLASS;GRID+SYNC+COMPLETE;ENTER+THE+VOID" />
 </p>
 
 <div align="center">
   <img src="https://raw.githubusercontent.com/Anmol-Baranwal/Cool-GIFs-for-GitHub/main/Solo%20Leveling/Solo_Leveling_System.gif" width="100%" />
+  <br><small>Active Protocol: <strong style="color:#${dailyTheme.accent}">${dailyTheme.name}</strong> ${dailyTheme.emoji}</small>
 </div>
 
-## 🆔 PLAYER STATUS WINDOW
+## 🔵 NEURAL STATUS READOUT
 \`\`\`text
-NAME          →  PENDEM VAMSI
-CLASS         →  SHADOW MONARCH (Full-Stack Architect)
-LEVEL         →  ${profile.level}
-RANK          →  ${profile.rank}-RANK
-XP            →  ${profile.xp} / ${profile.nextLevelXP}
-─────── CORE STATS ───────
-STRENGTH      [${profile.stats.strength}]  ████████████████████
-AGILITY       [${profile.stats.agility}]   █████████████████░░░
-INTELLIGENCE  [${profile.stats.intelligence}] ████████████████████
-VITALITY      [${profile.stats.vitality}]  ███████████████░░░░░
+SUBJECT ID    →  ${USERNAME.toUpperCase()}
+ENTITY CLASS  →  SHADOW MONARCH v${profile.level}
+NEURAL RANK   →  ${profile.rank}-TIER
+GRID SYNC     →  ${profile.xp}/${profile.nextLevelXP} QUANTUM PACKETS
+─────── BIO-METRICS (${dailyTheme.name}) ───────
+STRENGTH      ${profile.stats.strength.toString().padStart(3)}  █${"█".repeat(Math.min(20, Math.floor(profile.stats.strength/8)))}${"░".repeat(20 - Math.min(20, Math.floor(profile.stats.strength/8)))}
+AGILITY       ${profile.stats.agility.toString().padStart(3)}  █${"█".repeat(Math.min(20, Math.floor(profile.stats.agility/8)))}${"░".repeat(20 - Math.min(20, Math.floor(profile.stats.agility/8)))}
+INTELLIGENCE  ${profile.stats.intelligence.toString().padStart(3)}  █${"█".repeat(Math.min(20, Math.floor(profile.stats.intelligence/8)))}${"░".repeat(20 - Math.min(20, Math.floor(profile.stats.intelligence/8)))}
+VITALITY      ${profile.stats.vitality.toString().padStart(3)}  █${"█".repeat(Math.min(20, Math.floor(profile.stats.vitality/8)))}${"░".repeat(20 - Math.min(20, Math.floor(profile.stats.vitality/8)))}
 \`\`\`
 
-> **Daily Quest Reward:** +${dailyXP} XP ${levelsGained ? `(Level Up ×${levelsGained})` : ""}
+> **NEURAL BURST ACQUIRED:** +${dailyXP} QUANTUM PACKETS ${levelsGained ? `(ASCENSION ×${levelsGained})` : ""}
+> **WARNING:** ${dailyMessage}
 
 ---
 
-## 🗺️ SYSTEM ARCHITECTURE (LIVE MERMAID)
+## 🌀 GRID ARCHITECTURE (HOLOGRAPHIC RENDER)
 
 \`\`\`mermaid
-flowchart TD
-    A[User Request] --> B{Awakening Gate}
-    B -->|Frontend| C[React + Tailwind + GSAP]
-    B -->|Backend| D[Node.js + Express + Java]
-    B -->|Cloud| E[AWS Lambda + S3 + Rekognition]
-    B -->|Database| F[(MongoDB + PostgreSQL)]
-    C & D & E & F --> G[Deployment Success]
-    style G fill:#000,stroke:#0ff,stroke-width:4px
-\`\`\`
-
-\`\`\`mermaid
-sequenceDiagram
-    participant User
-    participant System
-    participant ShadowArmy
-    User->>System: Daily Quest
-    System->>ShadowArmy: Arise!
-    ShadowArmy-->>System: Projects Deployed
-    System-->>User: Level Up!
+flowchart LR
+    U[Neural Input] --> G{Quantum Gate}
+    G --> F[Frontend<br>React + GSAP + Neon]
+    G --> B[Backend<br>Node / Express / Java]
+    G --> C[Cloud Core<br>AWS Lambda + S3]
+    G --> D[Data Vault<br>MongoDB / PostgreSQL]
+    F & B & C & D --> O[Grid Online]
+    style O fill:#0d1117,stroke:#${dailyTheme.accent},stroke-width:5px,color:#fff
 \`\`\`
 
 ---
 
-## 📜 ACADEMIC DUNGEONS (QUEST LOG)
-> **[QUEST: THE PATH TO ENGINEERING]** — STATUS: **CLEARED** [^1]
-
-- [x] B.Tech Computer Science (2020-2024) — St. Ann’s College
-- [x] Intermediate MPC (2018-2020) — Sri Medhavi Junior College
-- [x] SSC (2017-2018) — Sri Geethanjali High School
+## 📡 ACADEMIC NODES – CONQUERED
+- [x] B.Tech Neural Engineering (2020–2024) – St. Ann’s Grid
+- [x] Intermediate Quantum Core (2018–2020) – Sri Medhavi
+- [x] SSC Primary Link (2017–2018) – Sri Geethanjali
 
 ---
 
-## 🛡️ SKILL TREE (COLLAPSIBLE)
+## ⚡ SKILL NEURAL MATRIX
 
-<details>
-<summary><b>🔹 EXPAND FULL SKILL MATRIX</b></summary>
+<details open>
+<summary>🔌 ACTIVE NEURAL LINKS</summary>
 
-| Skill                  | Rank | Mastery Bar                  | Proficiency |
-|------------------------|------|------------------------------|-------------|
-| Java / Spring Boot     | S    | ████████████████████ 100%   | Master      |
-| Node.js + Express      | S    | ████████████████████ 100%   | Master      |
-| React + GSAP           | A+   | █████████████████░░░ 92%    | Expert      |
-| AWS Full Stack         | S    | ████████████████████ 100%   | Sovereign   |
-| Python + AI (ARIMA)    | A    | ████████████████░░░░ 85%    | Advanced    |
-| DSA & Problem Solving  | A    | █████████████████░░░ 90%    | Advanced    |
+| Node               | Tier | Integrity Bar                | Status      |
+|--------------------|------|------------------------------|-------------|
+| Java Core          | S    | ████████████████████ 100%   | OVERCLOCKED |
+| Node.js Grid       | S    | ████████████████████ 100%   | OVERCLOCKED |
+| React Holo-UI      | A+   | █████████████████░░░ 92%    | ONLINE      |
+| AWS Quantum Relay  | S    | ████████████████████ 100%   | SOVEREIGN   |
+| Python AI Kernel   | A    | ████████████████░░░░ 85%    | CHARGING    |
+| DSA Void Algorithm | A    | █████████████████░░░ 90%    | ACTIVE      |
 
 </details>
 
 ---
 
-## 🏆 ACHIEVEMENT MEDALS (CUSTOM SVG BADGES)
+## 🏅 NEURAL ACHIEVEMENT TOKENS
 
 <p align="center">
-  <img src="https://img.shields.io/badge/IRCTC_Prestige-AWARD-gold?style=for-the-badge&logo=railway" />
-  <img src="https://img.shields.io/badge/CodeChef_Rank-850-FF9900?style=for-the-badge&logo=codechef" />
-  <img src="https://img.shields.io/badge/Cyber_Security_Commander-LEADER-00FF88?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/MERN_Stack_License-VERIFIED-00FFFF?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/IRCTC_NEURAL_LINK-AWAKENED-${dailyTheme.accent}-style=for-the-badge&logo=aws&logoColor=${dailyTheme.secondary}" />
+  <img src="https://img.shields.io/badge/CodeChef_GRID_RANK-850-${dailyTheme.secondary}-style=for-the-badge&logo=codechef" />
+  <img src="https://img.shields.io/badge/CYBER_COMMANDER-OVERRIDE-${dailyTheme.accent}-style=for-the-badge" />
+  <img src="https://img.shields.io/badge/MERN_HOLO_LICENSE-VERIFIED-${dailyTheme.accent}-style=for-the-badge" />
 </p>
 
 ---
 
-## 👥 SHADOW ARMY — PROJECT UNITS
+## 👾 SHADOW ENTITIES – SUMMONED
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/Anmol-Baranwal/Cool-GIFs-for-GitHub/main/Solo%20Leveling/Shadow_Extraction.gif" width="420" />
-  <br><b>"ARISE."</b>
+  <br><strong style="color:#${dailyTheme.accent}">ARISE.</strong>
 </p>
 
-| Unit | Shadow Name     | Class          | Origin Project                          |
-|------|-----------------|----------------|-----------------------------------------|
-| SH-01| **Igris**       | Commander      | AI Financial Advisor (Streamlit)        |
-| SH-02| **Beru**        | Insect Lord    | Video Conference (WebRTC)               |
-| SH-03| **Kaisel**      | Wyvern Mount   | Live Location Tracker (Firebase)        |
-| SH-04| **Tusk**        | Mage           | COVID-19 Global Monitor                 |
-| SH-05| **Iron**        | Heavy Tank     | React Password Generator                |
+| Entity | Designation   | Class            | Source Node                     |
+|--------|---------------|------------------|---------------------------------|
+| SH-01  | Igris         | Void Commander   | AI Financial Oracle             |
+| SH-02  | Beru          | Swarm Overlord   | WebRTC Quantum Stream           |
+| SH-03  | Kaisel        | Void Wyrm        | Geolocation Shadow Relay        |
+| SH-04  | Tusk          | Arcane Construct | Global Pandemic Sentinel        |
+| SH-05  | Iron          | Armored Bastion  | React Crypto Fortress           |
 
 ---
 
-## 📊 SYSTEM ANALYTICS (ALL 4 CARDS)
+## 📡 GRID ANALYTICS (LIVE FEED)
 
 <p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=${USERNAME}&show_icons=true&theme=radical&hide_border=true&include_all_commits=true" width="48%" />
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=${USERNAME}&theme=radical&hide_border=true" width="48%" /><br>
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=${USERNAME}&layout=compact&theme=radical&hide_border=true" width="48%" />
-  <img src="https://github-profile-trophy.vercel.app/?username=${USERNAME}&theme=radical&row=1&column=6" width="100%" />
+  <img src="https://github-readme-stats.vercel.app/api?username=${USERNAME}&show_icons=true&theme=radical&hide_border=true&include_all_commits=true&bg_color=${dailyTheme.bg}&title_color=${dailyTheme.accent}&text_color=ffffff&icon_color=${dailyTheme.secondary}" width="48%" />
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=${USERNAME}&theme=radical&hide_border=true&background=${dailyTheme.bg}&stroke=${dailyTheme.accent}&ring=${dailyTheme.secondary}&fire=${dailyTheme.accent}" width="48%" /><br>
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=${USERNAME}&layout=compact&theme=radical&hide_border=true&bg_color=${dailyTheme.bg}&title_color=${dailyTheme.accent}&text_color=ffffff" width="48%" />
+  <img src="https://github-profile-trophy.vercel.app/?username=${USERNAME}&theme=radical&row=1&column=6&no-frame=true&bg_color=${dailyTheme.bg}" width="100%" />
 </p>
 
 ---
 
-## 📂 FULL COMBAT HISTORY (320+ SYSTEM LOGS)
+## 🖥️ CORRUPTED MAINFRAME LOG (${terminalLogs.split('\n').length} ENTRIES)
 
 <details>
-<summary><b>VIEW COMPLETE TERMINAL LOG (${combatLogs.split('\n').length} ENTRIES)</b></summary>
+<summary>OPEN TERMINAL FEED – PROTOCOL: ${dailyTheme.name}</summary>
 
-${combatLogs}
+${terminalLogs}
 
 </details>
 
 ---
 
-## 📡 UPLINK CHANNELS
-- **Email** → pendem.vamsi12@gmail.com
-- **LinkedIn** → https://linkedin.com/in/vamsipendem
-- **Voice** → +91 9032552849
-
-[^1]: Graduation April 2024 — CGPA 7.42  
-[^2]: IRCTC Paper Presentation Award — December 2023  
-[^3]: CodeChef Dec Long Challenge Rank 850 — 2022
+## 🔗 QUANTUM UPLINK NODES
+- **NEURAL BURST** → pendem.vamsi12@gmail.com
+- **CORPORATE SYNC** → https://linkedin.com/in/vamsipendem
+- **VOICE RELAY** → +91 9032552849
 
 <p align="center">
-  <sub>${dailyQuote}</sub><br>
-  <sub><i>System synchronized: ${new Date().toISOString().slice(0,19)} IST</i></sub>
+  <sub style="color:#${dailyTheme.secondary}">${dailyQuote}</sub><br>
+  <sub><i>GRID SYNCHRONIZED: ${new Date().toISOString().slice(0,19)} IST | PROTOCOL: ${dailyTheme.name}</i></sub>
 </p>
 `;
 
 fs.writeFileSync(README_FILE, readmeContent);
 fs.writeFileSync(PROFILE_FILE, JSON.stringify(profile, null, 2));
 
-console.log(`\n✅ TITAN+ 2026 README GENERATED`);
-console.log(`   Level: ${profile.level} | Rank: ${profile.rank} | XP: ${profile.xp}/${profile.nextLevelXP}`);
-console.log(`   Combat logs: ${combatLogs.split('\n').length} lines`);
+console.log(`\n🌌 SCI-FI MAXIMUM ANIMATION README GENERATED`);
+console.log(`Level: ${profile.level} | Rank: ${profile.rank}`);
+console.log(`Active theme: ${dailyTheme.name} (${dailyTheme.emoji})`);
+console.log(`Terminal entries: ${terminalLogs.split('\n').length}`);
