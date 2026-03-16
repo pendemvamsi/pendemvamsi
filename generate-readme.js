@@ -1,6 +1,8 @@
 import fs from "fs";
 import path from "path";
 
+const username = "pendemvamsi";
+
 const profilePath = path.resolve(process.cwd(), "profile.json");
 const profile = JSON.parse(fs.readFileSync(profilePath, "utf8"));
 
