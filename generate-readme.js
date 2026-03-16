@@ -1,6 +1,7 @@
-// profile-generator.js
-// ULTIMATE SCI-FI ANIMATION 2026 EDITION — EVERY PIXEL IS CYBERPUNK
-// Run: node profile-generator.js
+// generate-readme.js
+// ULTIMATE SCI-FI ANIMATION 2026 EDITION — EVERY PIXEL IS CYBERPUNK / SOLO LEVELING VIBE
+// Fixed: dailyQuote is now properly defined and used
+// Run: node generate-readme.js
 
 import fs from "fs";
 import path from "path";
@@ -9,30 +10,38 @@ const USERNAME = "pendemvamsi";
 const PROFILE_FILE = path.join(process.cwd(), "profile.json");
 const README_FILE = path.join(process.cwd(), "README.md");
 
-// ─── SCI-FI THEME ENGINE (random every run) ───────────────────────────
+// ─── SCI-FI THEME ENGINE (random cyberpunk/neon/shadow flavor every run) ──
 const sciFiThemes = [
-  { name: "NEON VOID", accent: "00FFFF", bg: "000814", secondary: "FF00AA", emoji: "🌌⚡️" },
-  { name: "SHADOW EXTRACTION", accent: "AA00FF", bg: "0A001F", secondary: "FF3366", emoji: "🖤👁️" },
-  { name: "MATRIX RAIN", accent: "00FF9D", bg: "000000", secondary: "008866", emoji: "💾🌧️" },
-  { name: "CYBERPUNK 2077", accent: "FF6600", bg: "1A0D00", secondary: "FF9900", emoji: "🏙️🔥" },
-  { name: "BLADE RUNNER RAIN", accent: "00CCFF", bg: "000B1A", secondary: "CC00FF", emoji: "🌧️🔵" },
-  { name: "TRON LEGACY", accent: "00AAFF", bg: "000022", secondary: "FFAA00", emoji: "🟦🟧" },
-  { name: "PREDATOR CLOAK", accent: "44FF88", bg: "001100", secondary: "88FFCC", emoji: "👽🌫️" },
-  { name: "NECROMORPH INFEST", accent: "FF4444", bg: "110000", secondary: "AA0000", emoji: "🩸☠️" }
+  { name: "NEON VOID", accent: "00FFFF", secondary: "FF00AA", emoji: "🌌⚡️" },
+  { name: "SHADOW EXTRACTION", accent: "AA00FF", secondary: "FF3366", emoji: "🖤👁️" },
+  { name: "MATRIX RAIN", accent: "00FF9D", secondary: "008866", emoji: "💾🌧️" },
+  { name: "CYBERPUNK 2077", accent: "FF6600", secondary: "FF9900", emoji: "🏙️🔥" },
+  { name: "BLADE RUNNER RAIN", accent: "00CCFF", secondary: "CC00FF", emoji: "🌧️🔵" },
+  { name: "TRON LEGACY", accent: "00AAFF", secondary: "FFAA00", emoji: "🟦🟧" },
+  { name: "PREDATOR CLOAK", accent: "44FF88", secondary: "88FFCC", emoji: "👽🌫️" },
+  { name: "NECROMORPH INFEST", accent: "FF4444", secondary: "AA0000", emoji: "🩸☠️" }
 ];
 
 const dailyTheme = sciFiThemes[Math.floor(Math.random() * sciFiThemes.length)];
 
-// ─── PROFILE & LEVELING (sci-fi flavored) ──────────────────────────────
+// ─── LOAD / INIT HUNTER PROFILE ────────────────────────────────────────
 let profile = {
-  level: 1, xp: 0, nextLevelXP: 120, rank: "E",
+  level: 1,
+  xp: 0,
+  nextLevelXP: 120,
+  rank: "E",
   stats: { strength: 22, agility: 19, intelligence: 28, vitality: 17 }
 };
 
 if (fs.existsSync(PROFILE_FILE)) {
-  try { profile = JSON.parse(fs.readFileSync(PROFILE_FILE, "utf-8")); } catch (e) {}
+  try {
+    profile = JSON.parse(fs.readFileSync(PROFILE_FILE, "utf-8"));
+  } catch (e) {
+    console.warn("Profile file corrupted — resetting to level 1");
+  }
 }
 
+// ─── DAILY LEVELING + RANK UPGRADE ─────────────────────────────────────
 const dailyXP = Math.floor(Math.random() * 120) + 50;
 profile.xp += dailyXP;
 let levelsGained = 0;
@@ -41,6 +50,7 @@ while (profile.xp >= profile.nextLevelXP) {
   profile.level += 1;
   profile.xp -= profile.nextLevelXP;
   profile.nextLevelXP = Math.floor(profile.nextLevelXP * 1.88);
+
   profile.stats.strength     += Math.floor(Math.random() * 7) + 5;
   profile.stats.agility      += Math.floor(Math.random() * 6) + 4;
   profile.stats.intelligence += Math.floor(Math.random() * 8) + 6;
@@ -61,18 +71,26 @@ for (let i = 0; i < 400; i++) {
   terminalLogs += `> [0x${hex}] ${dailyTheme.emoji} **${dailyTheme.name} PROTOCOL** #${i} | NEURAL LINK ${glitch}STABILIZED | [TRANSMISSION SUCCESS]\n`;
 }
 
-// ─── RANDOM CYBERPUNK MESSAGE ─────────────────────────────────────────
-const cyberMessages = [
+// ─── RANDOM SCI-FI / CYBERPUNK MESSAGE ─────────────────────────────────
+const cyberQuotes = [
+  "「If you hesitate, you die.」",
+  "「Arise.」",
+  "「The System does not forgive weakness.」",
+  "「Every shadow you command was once a failure.」",
+  "「Level up or perish.」",
   "NEURAL UPLINK ESTABLISHED — RESISTANCE IS FUTILE",
   "QUANTUM ENTANGLEMENT CONFIRMED — YOU ARE THE SYSTEM",
   "SHADOW EXTRACTION COMPLETE — ALL HAIL THE MONARCH",
   "CORPORATE FIREWALL BREACHED — DATA IS FREEDOM",
   "VOID PROTOCOL ACTIVE — NO ESCAPE FROM THE GRID",
-  "HOLOGRAPHIC MASK ENGAGED — IDENTITY ERASED"
+  "HOLOGRAPHIC MASK ENGAGED — IDENTITY ERASED",
+  "GRID OVERLOAD IMMINENT — PREPARE FOR ASCENSION",
+  "SYNTHETIC DREAMS LOADING… DO NOT DISCONNECT"
 ];
-const dailyMessage = cyberMessages[Math.floor(Math.random() * cyberMessages.length)];
 
-// ─── FULL README – MAX SCI-FI ANIMATION VIBE ──────────────────────────
+const dailyQuote = cyberQuotes[Math.floor(Math.random() * cyberQuotes.length)];
+
+// ─── FULL README – MAXIMUM SCI-FI ANIMATION VIBE ───────────────────────
 const readmeContent = `# 🌌 [ NEURAL CORE ACCESS: ${USERNAME.toUpperCase()} ]
 
 <p align="center">
@@ -98,7 +116,7 @@ VITALITY      ${profile.stats.vitality.toString().padStart(3)}  █${"█".repea
 \`\`\`
 
 > **NEURAL BURST ACQUIRED:** +${dailyXP} QUANTUM PACKETS ${levelsGained ? `(ASCENSION ×${levelsGained})` : ""}
-> **WARNING:** ${dailyMessage}
+> **SYSTEM MESSAGE:** ${dailyMessage}
 
 ---
 
@@ -199,7 +217,7 @@ ${terminalLogs}
 
 <p align="center">
   <sub style="color:#${dailyTheme.secondary}">${dailyQuote}</sub><br>
-  <sub><i>GRID SYNCHRONIZED: ${new Date().toISOString().slice(0,19)} IST | PROTOCOL: ${dailyTheme.name}</i></sub>
+  <sub><i style="color:#888;">GRID SYNCHRONIZED: ${new Date().toISOString().slice(0,19)} IST | PROTOCOL: ${dailyTheme.name}</i></sub>
 </p>
 `;
 
