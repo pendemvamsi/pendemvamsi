@@ -1,19 +1,18 @@
 {
-  "name": "Sung Jin-Woo",
+  "name": "Pendem Vamsi",
   "class": "Shadow Monarch",
   "level": 1,
-  "xp": 59,
+  "xp": 0,
   "nextLevelXP": 100,
-  "health": 100,
-  "mana": 50,
-  "attack": 10,
-  "defense": 5,
-  "inventory": [],
-  "quests": [
-    {
-      "name": "Slay E-Rank Goblins",
-      "reward": 22,
-      "completed": false
-    }
-  ]
+  "stats": {
+    "strength": 85,
+    "agility": 80,
+    "sense": 92,
+    "intelligence": 88,
+    "vitality": 75
+  },
+  "shadows_extracted": 0,
+  "achievements": [],
+  "unlocked_skills": ["MERN Strike", "AWS Gate Jump"],
+  "inventory": []
 }
