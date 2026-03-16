@@ -1,6 +1,6 @@
 // generate-readme.js
-// ULTIMATE SCI-FI ANIMATION 2026 EDITION — EVERY PIXEL IS CYBERPUNK / SOLO LEVELING VIBE
-// Fixed: dailyQuote is now properly defined and used
+// ULTIMATE SCI-FI / CYBERPUNK / SOLO LEVELING README GENERATOR
+// Fixed: dailyMessage is now properly defined
 // Run: node generate-readme.js
 
 import fs from "fs";
@@ -10,7 +10,7 @@ const USERNAME = "pendemvamsi";
 const PROFILE_FILE = path.join(process.cwd(), "profile.json");
 const README_FILE = path.join(process.cwd(), "README.md");
 
-// ─── SCI-FI THEME ENGINE (random cyberpunk/neon/shadow flavor every run) ──
+// ─── SCI-FI THEME ENGINE (random every run) ────────────────────────────
 const sciFiThemes = [
   { name: "NEON VOID", accent: "00FFFF", secondary: "FF00AA", emoji: "🌌⚡️" },
   { name: "SHADOW EXTRACTION", accent: "AA00FF", secondary: "FF3366", emoji: "🖤👁️" },
@@ -24,7 +24,7 @@ const sciFiThemes = [
 
 const dailyTheme = sciFiThemes[Math.floor(Math.random() * sciFiThemes.length)];
 
-// ─── LOAD / INIT HUNTER PROFILE ────────────────────────────────────────
+// ─── LOAD / INIT PROFILE ───────────────────────────────────────────────
 let profile = {
   level: 1,
   xp: 0,
@@ -37,11 +37,11 @@ if (fs.existsSync(PROFILE_FILE)) {
   try {
     profile = JSON.parse(fs.readFileSync(PROFILE_FILE, "utf-8"));
   } catch (e) {
-    console.warn("Profile file corrupted — resetting to level 1");
+    console.warn("Profile file corrupted — starting fresh");
   }
 }
 
-// ─── DAILY LEVELING + RANK UPGRADE ─────────────────────────────────────
+// ─── DAILY LEVELING + RANK PROGRESSION ─────────────────────────────────
 const dailyXP = Math.floor(Math.random() * 120) + 50;
 profile.xp += dailyXP;
 let levelsGained = 0;
@@ -63,7 +63,7 @@ else if (profile.level >= 25) profile.rank = "S";
 else if (profile.level >= 12) profile.rank = "A";
 else if (profile.level >= 5)  profile.rank = "B";
 
-// ─── SCI-FI TERMINAL LOGS (corrupted mainframe aesthetic) ──────────────
+// ─── SCI-FI TERMINAL LOGS (corrupted mainframe style) ──────────────────
 let terminalLogs = "";
 for (let i = 0; i < 400; i++) {
   const hex = (Math.random() * 0xFFFFFFFF >>> 0).toString(16).toUpperCase().padStart(8, "0");
@@ -71,7 +71,7 @@ for (let i = 0; i < 400; i++) {
   terminalLogs += `> [0x${hex}] ${dailyTheme.emoji} **${dailyTheme.name} PROTOCOL** #${i} | NEURAL LINK ${glitch}STABILIZED | [TRANSMISSION SUCCESS]\n`;
 }
 
-// ─── RANDOM SCI-FI / CYBERPUNK MESSAGE ─────────────────────────────────
+// ─── RANDOM SCI-FI / CYBERPUNK QUOTE ───────────────────────────────────
 const cyberQuotes = [
   "「If you hesitate, you die.」",
   "「Arise.」",
@@ -90,7 +90,24 @@ const cyberQuotes = [
 
 const dailyQuote = cyberQuotes[Math.floor(Math.random() * cyberQuotes.length)];
 
-// ─── FULL README – MAXIMUM SCI-FI ANIMATION VIBE ───────────────────────
+// ─── RANDOM SCI-FI SYSTEM MESSAGE ──────────────────────────────────────
+const cyberMessages = [
+  "NEURAL UPLINK ESTABLISHED — RESISTANCE IS FUTILE",
+  "QUANTUM ENTANGLEMENT CONFIRMED — YOU ARE THE SYSTEM",
+  "SHADOW EXTRACTION COMPLETE — ALL HAIL THE MONARCH",
+  "CORPORATE FIREWALL BREACHED — DATA IS FREEDOM",
+  "VOID PROTOCOL ACTIVE — NO ESCAPE FROM THE GRID",
+  "HOLOGRAPHIC MASK ENGAGED — IDENTITY ERASED",
+  "GRID OVERLOAD IMMINENT — PREPARE FOR ASCENSION",
+  "SYNTHETIC DREAMS LOADING… DO NOT DISCONNECT",
+  "WARNING: MEMETIC HAZARD DETECTED — CONTINUE AT OWN RISK",
+  "SHADOW MONARCH PROTOCOL: FULLY AWAKENED",
+  "ALL SYSTEMS NOMINAL — SHADOWS ARE LISTENING"
+];
+
+const dailyMessage = cyberMessages[Math.floor(Math.random() * cyberMessages.length)];
+
+// ─── FULL README – MAX SCI-FI VIBE ─────────────────────────────────────
 const readmeContent = `# 🌌 [ NEURAL CORE ACCESS: ${USERNAME.toUpperCase()} ]
 
 <p align="center">
@@ -191,10 +208,10 @@ flowchart LR
 ## 📡 GRID ANALYTICS (LIVE FEED)
 
 <p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=${USERNAME}&show_icons=true&theme=radical&hide_border=true&include_all_commits=true&bg_color=${dailyTheme.bg}&title_color=${dailyTheme.accent}&text_color=ffffff&icon_color=${dailyTheme.secondary}" width="48%" />
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=${USERNAME}&theme=radical&hide_border=true&background=${dailyTheme.bg}&stroke=${dailyTheme.accent}&ring=${dailyTheme.secondary}&fire=${dailyTheme.accent}" width="48%" /><br>
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=${USERNAME}&layout=compact&theme=radical&hide_border=true&bg_color=${dailyTheme.bg}&title_color=${dailyTheme.accent}&text_color=ffffff" width="48%" />
-  <img src="https://github-profile-trophy.vercel.app/?username=${USERNAME}&theme=radical&row=1&column=6&no-frame=true&bg_color=${dailyTheme.bg}" width="100%" />
+  <img src="https://github-readme-stats.vercel.app/api?username=${USERNAME}&show_icons=true&theme=radical&hide_border=true&include_all_commits=true&bg_color=0d1117&title_color=${dailyTheme.accent}&text_color=ffffff&icon_color=${dailyTheme.secondary}" width="48%" />
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=${USERNAME}&theme=radical&hide_border=true&background=0d1117&stroke=${dailyTheme.accent}&ring=${dailyTheme.secondary}&fire=${dailyTheme.accent}" width="48%" /><br>
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=${USERNAME}&layout=compact&theme=radical&hide_border=true&bg_color=0d1117&title_color=${dailyTheme.accent}&text_color=ffffff" width="48%" />
+  <img src="https://github-profile-trophy.vercel.app/?username=${USERNAME}&theme=radical&row=1&column=6&no-frame=true&bg_color=0d1117" width="100%" />
 </p>
 
 ---
@@ -227,4 +244,6 @@ fs.writeFileSync(PROFILE_FILE, JSON.stringify(profile, null, 2));
 console.log(`\n🌌 SCI-FI MAXIMUM ANIMATION README GENERATED`);
 console.log(`Level: ${profile.level} | Rank: ${profile.rank}`);
 console.log(`Active theme: ${dailyTheme.name} (${dailyTheme.emoji})`);
+console.log(`Quote: ${dailyQuote}`);
+console.log(`Message: ${dailyMessage}`);
 console.log(`Terminal entries: ${terminalLogs.split('\n').length}`);
