@@ -2,12 +2,18 @@
   "name": "Sung Jin-Woo",
   "class": "Shadow Monarch",
   "level": 1,
-  "xp": 0,
+  "xp": 59,
   "nextLevelXP": 100,
   "health": 100,
   "mana": 50,
   "attack": 10,
   "defense": 5,
   "inventory": [],
-  "quests": []
+  "quests": [
+    {
+      "name": "Slay E-Rank Goblins",
+      "reward": 22,
+      "completed": false
+    }
+  ]
 }
