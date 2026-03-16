@@ -2,7 +2,7 @@
   "name": "Pendem Vamsi",
   "class": "Shadow Monarch",
   "level": 1,
-  "xp": 0,
+  "xp": 46,
   "nextLevelXP": 100,
   "stats": {
     "strength": 85,
@@ -13,6 +13,9 @@
   },
   "shadows_extracted": 0,
   "achievements": [],
-  "unlocked_skills": ["MERN Strike", "AWS Gate Jump"],
+  "unlocked_skills": [
+    "MERN Strike",
+    "AWS Gate Jump"
+  ],
   "inventory": []
 }
