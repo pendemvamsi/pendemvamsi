@@ -1,113 +1,122 @@
+/**
+ * Solo Leveling: GitHub System Interface
+ * Highly formatted README generator
+ */
 import fs from "fs";
 import path from "path";
 
-// Load player state
+// 1. LOAD DATA
 const profilePath = path.resolve(process.cwd(), "profile.json");
 const profile = JSON.parse(fs.readFileSync(profilePath, "utf8"));
 
 // ----------------- GAME LOGIC -----------------
 
 const lootTable = [
-  { name: "🛡️ Steel Shield", type: "armor", defense: 5 },
-  { name: "🗡️ Iron Sword", type: "weapon", attack: 5 },
-  { name: "🧪 Health Potion", type: "potion", heal: 50 },
-  { name: "🧪 Mana Potion", type: "potion", mana: 30 },
-  { name: "⚔️ Shadow Dagger", type: "weapon", attack: 12 }
+  { name: "🗡️ Iron Sword", type: "Weapon", effect: "+5 ATK", attack: 5 },
+  { name: "🛡️ Steel Shield", type: "Armor", effect: "+5 DEF", defense: 5 },
+  { name: "🧪 Health Potion", type: "Consumable", effect: "+50 HP" },
+  { name: "👟 Agility Boots", type: "Armor", effect: "+3 SPD" },
+  { name: "⚔️ Shadow Dagger", type: "Weapon", effect: "+12 ATK", attack: 12 }
 ];
 
-function levelUp() {
+// Level Up Logic
+const oldLevel = profile.level;
+const dailyXP = Math.floor(Math.random() * 40) + 20;
+profile.xp += dailyXP;
+
+let leveledUp = false;
+while (profile.xp >= profile.nextLevelXP) {
+  leveledUp = true;
   profile.level += 1;
   profile.xp -= profile.nextLevelXP;
-  profile.nextLevelXP = Math.floor(profile.nextLevelXP * 1.6);
-  profile.health += 25;
-  profile.mana += 15;
-  profile.attack += 7;
-  profile.defense += 4;
-  console.log(`LEVEL UP! Now Level ${profile.level}`);
+  profile.nextLevelXP = Math.floor(profile.nextLevelXP * 1.5);
+  profile.health += 20;
+  profile.mana += 10;
+  profile.attack += 5;
+  profile.defense += 3;
 }
 
-function gainXP(amount) {
-  profile.xp += amount;
-  while (profile.xp >= profile.nextLevelXP) {
-    levelUp();
-  }
+// Loot Logic (30% chance)
+let lootFound = null;
+if (Math.random() > 0.7) {
+  lootFound = lootTable[Math.floor(Math.random() * lootTable.length)];
+  profile.inventory.push(lootFound);
 }
 
-// Simulate Daily Activity
-const dailyXP = Math.floor(Math.random() * 45) + 15;
-gainXP(dailyXP);
-
-// 20% chance for loot
-if (Math.random() > 0.8) {
-  const item = lootTable[Math.floor(Math.random() * lootTable.length)];
-  profile.inventory.push(item);
-}
-
-// Handle Quests (Complete old ones, add new one)
-profile.quests.forEach(q => q.completed = true); 
-if (profile.quests.length > 5) profile.quests.shift(); // Keep list clean
-
+// Quest Logic (Refresh daily)
+const questNames = ["Slay E-Rank Goblins", "Clear the Cerberus Gate", "Daily Strength Training", "Shadow Extraction Practice"];
 const newQuest = {
-  id: Date.now(),
-  name: `Slay ${Math.floor(Math.random() * 5) + 2} E-Rank Goblins`,
-  reward: Math.floor(Math.random() * 30) + 10,
-  completed: false
+  name: questNames[Math.floor(Math.random() * questNames.length)],
+  reward: Math.floor(Math.random() * 50) + 10,
+  completed: Math.random() > 0.5 // 50% chance it was "auto-completed" by your activity
 };
-profile.quests.push(newQuest);
+profile.quests.unshift(newQuest);
+if (profile.quests.length > 3) profile.quests.pop(); // Keep only 3 quests
 
 // Save State
 fs.writeFileSync(profilePath, JSON.stringify(profile, null, 2));
 
-// ----------------- README GEN -----------------
+// ----------------- UI GENERATION -----------------
 
-const progressPercent = Math.min(100, Math.floor((profile.xp / profile.nextLevelXP) * 100));
-const progressBar = `![XP](https://progress-bar.dev/${progressPercent}/?title=XP&width=400&color=6a0dad)`;
+const progressPercent = Math.floor((profile.xp / profile.nextLevelXP) * 100);
+const progressBar = `![XP](https://progress-bar.dev/${progressPercent}/?title=EXP&width=500&color=6a0dad&suffix=%)`;
 
-const inventoryList = profile.inventory.length > 0 
-  ? profile.inventory.map(i => `| ${i.name} | ${i.type} |`).join("\n")
-  : "| Empty | - |";
+const inventoryRows = profile.inventory.length > 0 
+  ? profile.inventory.slice(-5).map(i => `| ${i.name} | ${i.type} | ${i.effect} |`).join("\n")
+  : "| No items | - | - |";
 
-const questList = profile.quests.map(q => 
-  `- ${q.completed ? "✅" : "⏳"} ${q.name} (Reward: ${q.reward} XP)`
+const questRows = profile.quests.map(q => 
+  `- [${q.completed ? "x" : " "}] **${q.name}** — *Reward: ${q.reward} XP*`
 ).join("\n");
 
-const content = `
-# 🗡️ Solo Leveling: GitHub Chronicles
+const systemMessage = leveledUp 
+  ? `> 🎊 **SYSTEM NOTIFICATION: LEVEL UP!** \n> You have reached **Level ${profile.level}**. Your stats have increased.`
+  : `> 📢 **SYSTEM MESSAGE:** You gained **${dailyXP} XP** today. Keep training to reach the next rank.`;
 
-### 👤 Player: ${profile.name} 
-**Class:** ${profile.class} | **Rank:** ${profile.level > 10 ? 'B-Rank' : 'E-Rank'}
+const readmeContent = `
+# 🗡️ [ SYSTEM INTERFACE ] : Solo Leveling
+
+${systemMessage}
+
+## 👤 PLAYER INFO
+| Attribute | Details |
+| :--- | :--- |
+| **Player Name** | ${profile.name} |
+| **Job Class** | ${profile.class} |
+| **Rank** | ${profile.level > 10 ? "C-Rank" : "E-Rank"} |
 
 ---
 
-### 📊 Stats
-| Stat | Value |
-| :--- | :--- |
-| **Level** | ${profile.level} |
-| **Health** | ${profile.health} |
-| **Mana** | ${profile.mana} |
-| **Attack** | ${profile.attack} |
-| **Defense** | ${profile.defense} |
+## 📊 PLAYER STATS
+| Stat | Value | | Stat | Value |
+| :--- | :--- | :--- | :--- | :--- |
+| **HP** | ${profile.health} | | **ATK** | ${profile.attack} |
+| **MP** | ${profile.mana} | | **DEF** | ${profile.defense} |
 
-**Experience Points:**
-${profile.xp} / ${profile.nextLevelXP}
+**Experience Points (Level ${profile.level})**
 ${progressBar}
+*Next Level at ${profile.nextLevelXP} XP*
 
 ---
 
-### 🎒 Inventory
-| Item | Type |
-| :--- | :--- |
-${inventoryList}
+## 🎒 INVENTORY (Recent Loot)
+| Item | Type | Effect |
+| :--- | :--- | :--- |
+${inventoryRows}
 
 ---
 
-### 📜 Active Quests
-${questList}
+## 📜 ACTIVE QUESTS
+${questRows}
 
 ---
 
-*Last Updated: ${new Date().toUTCString()}*
-*Automated via GitHub Actions*
+## 📈 GLOBAL RANKING (GitHub Stats)
+![Stats](https://github-readme-stats.vercel.app/api?username=${process.env.GITHUB_REPOSITORY_OWNER || 'your-username'}&show_icons=true&theme=radical&hide_border=true)
+
+---
+*Generated by the System at ${new Date().toISOString().split('T')[0]}*
 `;
 
-fs.writeFileSync(path.resolve(process.cwd(), "README.md"), content);
+fs.writeFileSync(path.join(process.cwd(), "README.md"), readmeContent);
+console.log("System Synced Successfully.");
