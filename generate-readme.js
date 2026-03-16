@@ -1,122 +1,111 @@
-/**
- * Solo Leveling: GitHub System Interface
- * Highly formatted README generator
- */
 import fs from "fs";
 import path from "path";
 
-// 1. LOAD DATA
 const profilePath = path.resolve(process.cwd(), "profile.json");
 const profile = JSON.parse(fs.readFileSync(profilePath, "utf8"));
 
-// ----------------- GAME LOGIC -----------------
+// --- 1. LEVELING & SCALING LOGIC ---
+const dailyXP = Math.floor(Math.random() * 50) + 20;
+profile.xp += dailyXP;
+while (profile.xp >= profile.nextLevelXP) {
+    profile.level += 1;
+    profile.xp -= profile.nextLevelXP;
+    profile.nextLevelXP = Math.floor(profile.nextLevelXP * 1.5);
+    profile.stats.strength += 2;
+    profile.stats.intelligence += 2;
+}
 
-const lootTable = [
-  { name: "🗡️ Iron Sword", type: "Weapon", effect: "+5 ATK", attack: 5 },
-  { name: "🛡️ Steel Shield", type: "Armor", effect: "+5 DEF", defense: 5 },
-  { name: "🧪 Health Potion", type: "Consumable", effect: "+50 HP" },
-  { name: "👟 Agility Boots", type: "Armor", effect: "+3 SPD" },
-  { name: "⚔️ Shadow Dagger", type: "Weapon", effect: "+12 ATK", attack: 12 }
+// --- 2. GENERATE MASSIVE CONTENT SECTIONS ---
+
+// Skill Tree Generator (Fills space with lore and technical skills)
+const skillTree = [
+    { name: "Node.js Core", rank: "S", desc: "Asynchronous I/O Mastery" },
+    { name: "React Phase", rank: "A", desc: "Virtual DOM Manipulation" },
+    { name: "PostgreSQL Gate", rank: "B", desc: "Relational Data Extraction" },
+    { name: "AWS Cloud Sovereign", rank: "S", desc: "Serverless Architecture" }
 ];
 
-// Level Up Logic
-const oldLevel = profile.level;
-const dailyXP = Math.floor(Math.random() * 40) + 20;
-profile.xp += dailyXP;
+const skillMarkup = skillTree.map(s => `
+#### 💠 ${s.name} [RANK: ${s.rank}]
+- **Description:** ${s.desc}
+- **Mastery:** ████████████████████ 100%
+`).join("\n");
 
-let leveledUp = false;
-while (profile.xp >= profile.nextLevelXP) {
-  leveledUp = true;
-  profile.level += 1;
-  profile.xp -= profile.nextLevelXP;
-  profile.nextLevelXP = Math.floor(profile.nextLevelXP * 1.5);
-  profile.health += 20;
-  profile.mana += 10;
-  profile.attack += 5;
-  profile.defense += 3;
-}
+// Shadow Army (Your Projects)
+const shadows = [
+    { name: "Igris (AI Finance)", origin: "Streamlit Project", power: "Elite Knight" },
+    { name: "Tank (Video Conf)", origin: "WebRTC Project", power: "Heavy Knight" },
+    { name: "Kaisel (Location Tracker)", origin: "Firebase Project", power: "Wyvern" }
+];
 
-// Loot Logic (30% chance)
-let lootFound = null;
-if (Math.random() > 0.7) {
-  lootFound = lootTable[Math.floor(Math.random() * lootTable.length)];
-  profile.inventory.push(lootFound);
-}
+const shadowArmyMarkup = shadows.map(sh => `
+| unit_id | unit_name | unit_class | origin_source |
+| :--- | :--- | :--- | :--- |
+| ${Math.random().toString(36).substring(7)} | ${sh.name} | ${sh.power} | ${sh.origin} |
+`).join("\n");
 
-// Quest Logic (Refresh daily)
-const questNames = ["Slay E-Rank Goblins", "Clear the Cerberus Gate", "Daily Strength Training", "Shadow Extraction Practice"];
-const newQuest = {
-  name: questNames[Math.floor(Math.random() * questNames.length)],
-  reward: Math.floor(Math.random() * 50) + 10,
-  completed: Math.random() > 0.5 // 50% chance it was "auto-completed" by your activity
-};
-profile.quests.unshift(newQuest);
-if (profile.quests.length > 3) profile.quests.pop(); // Keep only 3 quests
-
-// Save State
-fs.writeFileSync(profilePath, JSON.stringify(profile, null, 2));
-
-// ----------------- UI GENERATION -----------------
-
-const progressPercent = Math.floor((profile.xp / profile.nextLevelXP) * 100);
-const progressBar = `![XP](https://progress-bar.dev/${progressPercent}/?title=EXP&width=500&color=6a0dad&suffix=%)`;
-
-const inventoryRows = profile.inventory.length > 0 
-  ? profile.inventory.slice(-5).map(i => `| ${i.name} | ${i.type} | ${i.effect} |`).join("\n")
-  : "| No items | - | - |";
-
-const questRows = profile.quests.map(q => 
-  `- [${q.completed ? "x" : " "}] **${q.name}** — *Reward: ${q.reward} XP*`
-).join("\n");
-
-const systemMessage = leveledUp 
-  ? `> 🎊 **SYSTEM NOTIFICATION: LEVEL UP!** \n> You have reached **Level ${profile.level}**. Your stats have increased.`
-  : `> 📢 **SYSTEM MESSAGE:** You gained **${dailyXP} XP** today. Keep training to reach the next rank.`;
-
+// --- 3. THE FULL README TEMPLATE (The "2000 Line" Structure) ---
 const readmeContent = `
-# 🗡️ [ SYSTEM INTERFACE ] : Solo Leveling
+# 🗡️ [ SYSTEM INTERFACE: PENDEM VAMSI ]
 
-${systemMessage}
+<p align="center">
+  <img src="https://readme-typing-svg.herokuapp.com?font=Orbitron&size=32&duration=4200&pause=1200&color=00FFFF&center=true&vCenter=true&width=600&lines=SYSTEM+AWAKENING...;Shadow+Monarch+Ascending;Current+Level%3A+${profile.level};Extracting+Project+Shadows..." />
+</p>
 
-## 👤 PLAYER INFO
-| Attribute | Details |
-| :--- | :--- |
-| **Player Name** | ${profile.name} |
-| **Job Class** | ${profile.class} |
-| **Rank** | ${profile.level > 10 ? "C-Rank" : "E-Rank"} |
-
----
-
-## 📊 PLAYER STATS
-| Stat | Value | | Stat | Value |
-| :--- | :--- | :--- | :--- | :--- |
-| **HP** | ${profile.health} | | **ATK** | ${profile.attack} |
-| **MP** | ${profile.mana} | | **DEF** | ${profile.defense} |
-
-**Experience Points (Level ${profile.level})**
-${progressBar}
-*Next Level at ${profile.nextLevelXP} XP*
+## 🆔 PLAYER STATUS WINDOW
+\`\`\`text
+NAME          →  PENDEM VAMSI
+JOB           →  SHADOW MONARCH (Full-Stack Developer)
+LEVEL         →  ${profile.level}
+RANK          →  S-RANK
+FATIGUE       →  0
+─────── CORE STATS ───────
+STRENGTH      [${profile.stats.strength}]  ████████████████
+AGILITY       [${profile.stats.agility}]   ██████████████░░
+SENSE         [${profile.stats.sense}]     ████████████████
+INTELLIGENCE  [${profile.stats.intelligence}] ████████████████
+VITALITY      [${profile.stats.vitality}]  ████████████░░░░
+\`\`\`
 
 ---
 
-## 🎒 INVENTORY (Recent Loot)
-| Item | Type | Effect |
-| :--- | :--- | :--- |
-${inventoryRows}
+## 📜 QUEST LOG: ACADEMIC DUNGEONS
+> **[QUEST: THE PATH TO ENGINEERING]** - STATUS: **CLEARED**
+* **St. Ann’s College of Engineering** (2020-2024) - B.Tech CSE
+* **Sri Medhavi Junior College** (2018-2020) - Intermediate
+* **Sri Geethanjali High School** (2017-2018) - SSC
 
 ---
 
-## 📜 ACTIVE QUESTS
-${questRows}
+## 🛡️ SKILL TREE: AWAKENED ABILITIES
+${skillMarkup}
 
 ---
 
-## 📈 GLOBAL RANKING (GitHub Stats)
-![Stats](https://github-readme-stats.vercel.app/api?username=${process.env.GITHUB_REPOSITORY_OWNER || 'your-username'}&show_icons=true&theme=radical&hide_border=true)
+## 👥 SHADOW ARMY (PROJECT ARCHIVES)
+> *"Arise."*
+${shadowArmyMarkup}
 
 ---
-*Generated by the System at ${new Date().toISOString().split('T')[0]}*
+
+## 📊 SYSTEM ANALYTICS
+<p align="center">
+  <img src="https://github-readme-stats.vercel.app/api?username=${username}&show_icons=true&theme=radical&hide_border=true" width="48%" />
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=${username}&theme=radical&hide_border=true" width="48%" />
+</p>
+
+---
+
+## 📞 UPLINK (CONTACT)
+- 📧 **Gmail:** pendem.vamsi12@gmail.com
+- 🔗 **LinkedIn:** /in/vamsipendem
+- 📱 **Voice:** +91 9032552849
+
+<p align="center">
+  「If you hesitate, you die.」<br/>
+  <i>System Synchronized: ${new Date().toISOString()}</i>
+</p>
 `;
 
 fs.writeFileSync(path.join(process.cwd(), "README.md"), readmeContent);
-console.log("System Synced Successfully.");
+fs.writeFileSync(profilePath, JSON.stringify(profile, null, 2));
