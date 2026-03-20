@@ -1,15 +1,15 @@
 {
   "name": "Pendem Vamsi",
   "class": "Shadow Monarch",
-  "level": 3,
-  "xp": 249,
-  "nextLevelXP": 342,
+  "level": 4,
+  "xp": 41,
+  "nextLevelXP": 642,
   "stats": {
-    "strength": 100,
-    "agility": 91,
+    "strength": 106,
+    "agility": 99,
     "sense": 92,
-    "intelligence": 102,
-    "vitality": 88
+    "intelligence": 111,
+    "vitality": 93
   },
   "shadows_extracted": 0,
   "achievements": [],
