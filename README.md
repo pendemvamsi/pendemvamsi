@@ -16,7 +16,7 @@ ENTITY CLASS  →  SHADOW MONARCH v4
 NEURAL RANK   →  undefined-TIER
 GRID SYNC     →  41/642 QUANTUM PACKETS
 ─────── BIO-METRICS (CYBERPUNK 2077) ───────
-STRENGTH      106  ██████████████░░░░░░░
+STRENGTH      106  ██████████████
 AGILITY        99  █████████████░░░░░░░░
 INTELLIGENCE  111  ██████████████░░░░░░░
 VITALITY       93  ████████████░░░░░░░░░
